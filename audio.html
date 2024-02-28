@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Audio Example</title>
+</head>
+<body>
+
+<input type="file" id="audioFileInput" accept="audio/*">
+<button id="playButton">Play</button>
+<button id="pauseButton" disabled>Pause</button>
+<button id="resumeButton" disabled>Resume</button>
+<input type="number" id="seekInput" placeholder="Seek to Milliseconds">
+<button id="seekButton" disabled>Seek</button>
+<button id="partButton">Part</button>
+
+<audio controls id="audioElement"></audio>
+<p>Wait 5 seconds for the greeting:</p>
+
+<h2 id="demo"></h2>
+<script>
+    let audioElement = document.getElementById('audioElement');
+    let playButton = document.getElementById('playButton');
+    let pauseButton = document.getElementById('pauseButton');
+    let resumeButton = document.getElementById('resumeButton');
+    let seekInput = document.getElementById('seekInput');
+    let seekButton = document.getElementById('seekButton');
+    let partButton = document.getElementById('partButton');
+
+    playButton.addEventListener('click', playAudio);
+    pauseButton.addEventListener('click', pauseAudio);
+    resumeButton.addEventListener('click', resumeAudio);
+    seekButton.addEventListener('click', seekAudio);
+    partButton.addEventListener('click', partAudio);
+
+    function playAudio() {
+        const fileInput = document.getElementById('audioFileInput');
+        const file = fileInput.files[0];
+
+        if (!file) {
+            alert("Please select an audio file");
+            return;
+        }
+
+        audioElement.src = URL.createObjectURL(file);
+        audioElement.play();
+
+        // Enable buttons
+        playButton.disabled = true;
+        pauseButton.disabled = false;
+        resumeButton.disabled = false;
+        seekButton.disabled = false;
+        partButton.disabled = false;
+    }
+
+    function pauseAudio() {
+        audioElement.pause();
+
+        // Enable buttons
+        playButton.disabled = false;
+        pauseButton.disabled = true;
+        resumeButton.disabled = false;
+        seekButton.disabled = false;
+    }
+
+    function resumeAudio() {
+        audioElement.play();
+
+        // Enable buttons
+        playButton.disabled = true;
+        pauseButton.disabled = false;
+        resumeButton.disabled = false;
+        seekButton.disabled = false;
+    }
+
+    function seekAudio() {
+        const seekTime = parseFloat(seekInput.value);
+        
+        if (!isNaN(seekTime)) {
+            audioElement.currentTime = seekTime / 1000; // Convert milliseconds to seconds
+        }
+        audioElement.play();
+
+        playButton.disabled = true;
+        pauseButton.disabled = false;
+        resumeButton.disabled = true;
+    }
+
+
+
+    
+
+    function myGreeting() {
+        document.getElementById("demo").innerHTML = "Happy Birthday!"
+    }
+
+
+    function partAudio() {
+
+        const seekTime = parseFloat(11111);
+        
+        if (!isNaN(seekTime)) {
+            audioElement.currentTime = seekTime / 1000; // Convert milliseconds to seconds
+        }
+        audioElement.play();
+
+
+        const myTimeout = setTimeout(pauseAudio, 2000);
+    }
+
+
+    function onWindowLoad() {
+        playButton.disabled = false;
+        pauseButton.disabled = true;
+        resumeButton.disabled = true;
+        seekButton.disabled = true;
+        partButton.disabled = true;
+    }
+    window.onload = onWindowLoad;
+
+</script>
+
+</body>
+</html>
